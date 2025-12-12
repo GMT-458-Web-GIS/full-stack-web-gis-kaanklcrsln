@@ -5,14 +5,13 @@ import { getDatabase } from 'firebase/database';
 import { getAnalytics } from 'firebase/analytics';
 
 const firebaseConfig = {
-  apiKey: 'AIzaSyD26AL2n7KamwZGLpzAXLSbJjC_Mnblpl8',
-  authDomain: 'friendly-2fb02.firebaseapp.com',
-  projectId: 'friendly-2fb02',
-  storageBucket: 'friendly-2fb02.firebasestorage.app',
-  messagingSenderId: '278579009470',
-  appId: '1:278579009470:web:896afe1f5dfd391cef8bef',
-  databaseURL: 'https://friendly-2fb02-default-rtdb.europe-west1.firebasedatabase.app',
-  measurementId: 'G-Y8N6D9Q1GJ'
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  databaseURL: import.meta.env.VITE_FIREBASE_DATABASE_URL,
 };
 
 if (!firebaseConfig.apiKey) {
@@ -30,3 +29,4 @@ if (typeof window !== 'undefined') {
   analytics = getAnalytics(app);
 }
 export { analytics };
+
