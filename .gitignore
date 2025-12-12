@@ -1,0 +1,8 @@
+node_modules
+.pnpm-store
+.vscode
+.DS_Store
+.env
+client/.env
+server/.env
+dist

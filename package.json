@@ -1,0 +1,16 @@
+{
+  "name": "friendly",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Friendly monorepo with client and server apps.",
+  "scripts": {
+    "lint": "echo \"No root lint configured\"",
+    "start": "npm run dev --workspace client",
+    "dev": "npm run dev --workspace client",
+    "server": "npm run dev --workspace server"
+  },
+  "workspaces": [
+    "client",
+    "server"
+  ]
+}
