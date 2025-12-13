@@ -153,6 +153,27 @@
   flex-shrink: 0;
 }
 
+.verifiedBadge {
+  width: 20px;
+  height: 20px;
+  color: #4a7ab5;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.verifiedBadge:hover {
+  color: #2c5aa0;
+  filter: drop-shadow(0 0 4px rgba(74, 122, 181, 0.3));
+}
+
+:global(.dark-mode) .verifiedBadge {
+  color: #c3dcf7;
+}
+
+:global(.dark-mode) .verifiedBadge:hover {
+  color: #e0e7ff;
+}
+
 .adminBadge {
   display: inline-block;
   font-size: 14px;

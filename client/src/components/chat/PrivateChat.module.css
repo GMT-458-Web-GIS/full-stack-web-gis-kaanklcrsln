@@ -170,6 +170,12 @@
   gap: var(--spacing-sm);
 }
 
+.userNameContainer {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
 .userName {
   font-weight: 600;
   color: var(--color-primary);
@@ -178,6 +184,27 @@
 
 :global(.dark-mode) .userName {
   color: #c3dcf7;
+}
+
+.verifiedBadge {
+  width: 18px;
+  height: 18px;
+  color: #4a7ab5;
+  flex-shrink: 0;
+  transition: all var(--transition-fast);
+}
+
+.verifiedBadge:hover {
+  color: #2c5aa0;
+  filter: drop-shadow(0 0 4px rgba(74, 122, 181, 0.3));
+}
+
+:global(.dark-mode) .verifiedBadge {
+  color: #c3dcf7;
+}
+
+:global(.dark-mode) .verifiedBadge:hover {
+  color: #e0e7ff;
 }
 
 .timestamp {
