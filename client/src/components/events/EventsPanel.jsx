@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ref, onValue, update } from 'firebase/database';
+import { ref, onValue, update, remove } from 'firebase/database';
 import { rtdb } from '../../api/firebase';
 import { useAuth } from '../../hooks/useAuth';
 import { isAdmin } from '../../utils/adminConfig';
@@ -10,6 +10,7 @@ const CATEGORIES = ['Sosyal', 'Spor', 'Sanat', 'Eğitim', 'Diğer'];
 export default function EventsPanel() {
   const [events, setEvents] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Sosyal');
+  const [showDeleted, setShowDeleted] = useState(false);
   const { user } = useAuth();
 
   // Firebase'den etkinlikleri yükle
@@ -47,8 +48,52 @@ export default function EventsPanel() {
     }
   };
 
+  // Etkinliği sil (Soft delete - Admin only)
+  const handleDeleteEvent = async (eventId) => {
+    if (!window.confirm('Bu etkinliği silmek istediğinize emin misiniz?')) {
+      return;
+    }
+
+    try {
+      await update(ref(rtdb, `events/${eventId}`), {
+        isDeleted: true,
+        deletedAt: new Date().toISOString(),
+        deletedBy: user.uid
+      });
+    } catch (error) {
+      console.error('Etkinlik silinirken hata:', error);
+    }
+  };
+
+  // Silinen etkinliği geri getir (Admin only)
+  const handleRestoreEvent = async (eventId) => {
+    try {
+      await update(ref(rtdb, `events/${eventId}`), {
+        isDeleted: false,
+        deletedAt: null,
+        deletedBy: null
+      });
+    } catch (error) {
+      console.error('Etkinlik geri yüklenirken hata:', error);
+    }
+  };
+
   // Seçili kategoriye göre etkinlikleri filtrele
-  const filteredEvents = events.filter(event => event.category === selectedCategory);
+  const filteredEvents = events.filter(event => {
+    const isInCategory = event.category === selectedCategory;
+    
+    // Normal kullanıcılar silinmiş etkinlikleri görmesin
+    if (!isAdmin(user?.email)) {
+      return isInCategory && !event.isDeleted;
+    }
+    
+    // Admin'in showDeleted durumuna göre
+    if (showDeleted) {
+      return isInCategory && event.isDeleted;
+    } else {
+      return isInCategory && !event.isDeleted;
+    }
+  });
 
   // Kullanıcının bu etkinliğe katılım durumunu kontrol et
   const getUserParticipationStatus = (event) => {
@@ -68,11 +113,25 @@ export default function EventsPanel() {
           <button
             key={category}
             className={`${styles.categoryTab} ${selectedCategory === category ? styles.active : ''}`}
-            onClick={() => setSelectedCategory(category)}
+            onClick={() => {
+              setSelectedCategory(category);
+              setShowDeleted(false);
+            }}
           >
             {category}
           </button>
         ))}
+        
+        {/* Silinen Etkinlikler Butonu (Admin only) */}
+        {isAdmin(user?.email) && (
+          <button
+            className={`${styles.categoryTab} ${showDeleted ? styles.active : ''}`}
+            onClick={() => setShowDeleted(!showDeleted)}
+            title={showDeleted ? 'Normal etkinlikleri göster' : 'Silinen etkinlikleri göster'}
+          >
+            🗑️ 
+          </button>
+        )}
       </div>
 
       <div className={styles.eventsList}>
@@ -80,12 +139,35 @@ export default function EventsPanel() {
           const participationStatus = getUserParticipationStatus(event);
           
           return (
-            <div key={event.id} className={styles.eventCard}>
+            <div key={event.id} className={`${styles.eventCard} ${event.isDeleted ? styles.deleted : ''}`}>
               <div className={styles.eventHeader}>
                 <h3>{event.title}</h3>
-                {isAdmin(event.createdByEmail) && (
-                  <span className={styles.adminBadge} title="Admin tarafından oluşturuldu">👨‍💼</span>
-                )}
+                <div className={styles.headerIcons}>
+                  {isAdmin(event.createdByEmail) && (
+                    <span className={styles.adminBadge} title="Admin tarafından oluşturuldu">👨‍💼</span>
+                  )}
+                  {isAdmin(user?.email) && (
+                    <>
+                      {event.isDeleted ? (
+                        <button
+                          className={styles.restoreBtn}
+                          onClick={() => handleRestoreEvent(event.id)}
+                          title="Etkinliği geri yükle"
+                        >
+                          ↩️
+                        </button>
+                      ) : (
+                        <button
+                          className={styles.deleteBtn}
+                          onClick={() => handleDeleteEvent(event.id)}
+                          title="Etkinliği sil"
+                        >
+                          🗑️
+                        </button>
+                      )}
+                    </>
+                  )}
+                </div>
               </div>
 
               <div className={styles.eventDetails}>
@@ -110,7 +192,8 @@ export default function EventsPanel() {
                 </div>
               </div>
 
-              {/* Katılım İkonları */}
+              {/* Katılım İkonları - Silinen etkinliklerde gösterme */}
+              {!event.isDeleted && (
               <div className={styles.participationActions}>
                 <button
                   className={`${styles.participationBtn} ${participationStatus === 'approved' ? styles.approved : ''}`}
@@ -131,6 +214,7 @@ export default function EventsPanel() {
                   </svg>
                 </button>
               </div>
+              )}
             </div>
           );
         })}

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from 'react';
-import { ref, onValue, push, query, orderByChild } from 'firebase/database';
+import { ref, onValue, push, query, orderByChild, remove } from 'firebase/database';
 import { rtdb } from '../../api/firebase';
 import { useAuth } from '../../hooks/useAuth';
+import { isAdmin } from '../../utils/adminConfig';
 import styles from './GeneralChat.module.css';
 
 // Spam ve spam benzeri kelimeler (basit örnek)
@@ -112,6 +113,19 @@ export default function GeneralChat() {
     }
   };
 
+  // Mesajı sil (Admin only)
+  const handleDeleteMessage = async (messageId) => {
+    if (!window.confirm('Bu mesajı silmek istediğinize emin misiniz?')) {
+      return;
+    }
+
+    try {
+      await remove(ref(rtdb, `chat/general/${messageId}`));
+    } catch (error) {
+      console.error('Mesaj silinirken hata:', error);
+    }
+  };
+
   const isCurrentUser = (messageUserId) => messageUserId === user?.uid;
 
   return (
@@ -143,12 +157,23 @@ export default function GeneralChat() {
                 <span className={styles.userName}>
                   {isCurrentUser(message.userId) ? 'Sen' : message.displayName}
                 </span>
-                <span className={styles.timestamp}>
-                  {new Date(message.timestamp).toLocaleTimeString('tr-TR', {
-                    hour: '2-digit',
-                    minute: '2-digit'
-                  })}
-                </span>
+                <div className={styles.messageHeaderRight}>
+                  <span className={styles.timestamp}>
+                    {new Date(message.timestamp).toLocaleTimeString('tr-TR', {
+                      hour: '2-digit',
+                      minute: '2-digit'
+                    })}
+                  </span>
+                  {isAdmin(user?.email) && (
+                    <button
+                      className={styles.deleteMessageBtn}
+                      onClick={() => handleDeleteMessage(message.id)}
+                      title="Mesajı sil"
+                    >
+                      🗑️
+                    </button>
+                  )}
+                </div>
               </div>
               <div className={styles.messageContent}>
                 <p>{message.text}</p>

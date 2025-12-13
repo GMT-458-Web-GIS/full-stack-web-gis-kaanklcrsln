@@ -91,6 +91,10 @@ export default function MapContainer() {
       if (snapshot.exists()) {
         snapshot.forEach((child) => {
           const eventData = child.val();
+          // Silinen etkinlikleri gizle (normal kullanıcılar için)
+          if (eventData.isDeleted && !isAdmin(user?.email)) {
+            return;
+          }
           if (eventData.coordinates) {
             eventsData.push({
               id: child.key,
@@ -103,7 +107,7 @@ export default function MapContainer() {
     });
 
     return () => unsubscribe();
-  }, []);
+  }, [user]);
 
   // Etkinlik markerlarını haritaya ekle
   useEffect(() => {

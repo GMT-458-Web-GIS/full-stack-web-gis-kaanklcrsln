@@ -142,6 +142,12 @@
   gap: var(--spacing-sm);
 }
 
+.messageHeaderRight {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
 .userName {
   font-weight: 600;
   color: var(--color-primary);
@@ -155,6 +161,30 @@
 .timestamp {
   font-size: var(--font-size-xs);
   color: var(--color-text-secondary);
+}
+
+.deleteMessageBtn {
+  background: none;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 2px 4px;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition-fast);
+  opacity: 0;
+}
+
+.message:hover .deleteMessageBtn {
+  opacity: 1;
+}
+
+.deleteMessageBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  transform: scale(1.15);
+}
+
+:global(.dark-mode) .deleteMessageBtn:hover {
+  background: rgba(252, 165, 165, 0.15);
 }
 
 .messageContent {

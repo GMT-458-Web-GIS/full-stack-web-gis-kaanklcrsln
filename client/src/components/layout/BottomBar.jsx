@@ -65,12 +65,9 @@ export default function BottomBar() {
     }
   };
 
-  // Sadece admin etkinlik oluşturabilir
-  const userEmail = user?.email;
-  const adminUser = isAdmin(userEmail);
-
-  if (!adminUser) {
-    return null; // Admin değilse hiçbir şey gösterme
+  // Tüm kullanıcılar etkinlik oluşturabilir
+  if (!user) {
+    return null;
   }
 
   return (
