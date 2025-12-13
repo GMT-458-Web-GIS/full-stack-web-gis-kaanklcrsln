@@ -10,6 +10,11 @@
   box-shadow: var(--shadow-lg);
 }
 
+:global(.dark-mode) .bottomBar {
+  background: #1b1f3b;
+  border-top-color: #4a5568;
+}
+
 .floatingBtn {
   position: fixed;
   bottom: calc(var(--spacing-lg) + var(--spacing-md) - 20px);
@@ -73,6 +78,11 @@
   animation: slideUp var(--transition-fast);
 }
 
+:global(.dark-mode) .modalContent {
+  background: #1b1f3b;
+  color: #ffffff;
+}
+
 @keyframes slideUp {
   from {
     transform: translateY(20px);
@@ -88,6 +98,10 @@
   margin: 0 0 var(--spacing-lg) 0;
   color: var(--color-primary);
   font-size: var(--font-size-lg);
+}
+
+:global(.dark-mode) .modalContent h2 {
+  color: #c3dcf7;
 }
 
 .formGroup {

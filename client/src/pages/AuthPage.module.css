@@ -4,7 +4,7 @@
   align-items: center;
   flex: 1;
   padding: var(--spacing-xl);
-  background: linear-gradient(135deg, var(--color-blue-green-50), var(--color-slate-grey-50));
+  background: #d9ebff;
 }
 
 .card {

@@ -4,58 +4,12 @@ import styles from './ImageCropModal.module.css';
 export default function ImageCropModal({ image, onCrop, onClose }) {
   const canvasRef = useRef(null);
   const imageRef = useRef(null);
-  const [scale, setScale] = useState(1);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
   const [imageLoaded, setImageLoaded] = useState(false);
+  const FINAL_SIZE = 128;
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
   }, []);
-
-  const handleMouseDown = (e) => {
-    e.preventDefault();
-    setIsDragging(true);
-    setDragStart({
-      x: e.clientX - position.x,
-      y: e.clientY - position.y
-    });
-  };
-
-  const handleMouseMove = (e) => {
-    if (!isDragging) return;
-    setPosition({
-      x: e.clientX - dragStart.x,
-      y: e.clientY - dragStart.y
-    });
-  };
-
-  const handleMouseUp = () => {
-    setIsDragging(false);
-  };
-
-  const handleTouchStart = (e) => {
-    const touch = e.touches[0];
-    setIsDragging(true);
-    setDragStart({
-      x: touch.clientX - position.x,
-      y: touch.clientY - position.y
-    });
-  };
-
-  const handleTouchMove = (e) => {
-    if (!isDragging) return;
-    const touch = e.touches[0];
-    setPosition({
-      x: touch.clientX - dragStart.x,
-      y: touch.clientY - dragStart.y
-    });
-  };
-
-  const handleTouchEnd = () => {
-    setIsDragging(false);
-  };
 
   const handleCrop = () => {
     const canvas = canvasRef.current;
@@ -64,35 +18,35 @@ export default function ImageCropModal({ image, onCrop, onClose }) {
 
     if (!img || !imageLoaded) return;
 
-    // Set canvas size to 256x256
-    canvas.width = 256;
-    canvas.height = 256;
+    const imgWidth = img.naturalWidth;
+    const imgHeight = img.naturalHeight;
 
-    // Clear canvas
-    ctx.clearRect(0, 0, 256, 256);
+    // En küçük boyut referans al (1:1 kare yapmak için)
+    const minDimension = Math.min(imgWidth, imgHeight);
+    
+    // Kare alanı ortada olacak şekilde hesapla
+    const sourceX = (imgWidth - minDimension) / 2;
+    const sourceY = (imgHeight - minDimension) / 2;
 
-    // Calculate the visible area dimensions
-    const containerSize = 256; // Preview container size
-    const imgWidth = img.naturalWidth * scale;
-    const imgHeight = img.naturalHeight * scale;
+    // 128x128 final canvas
+    canvas.width = FINAL_SIZE;
+    canvas.height = FINAL_SIZE;
 
-    // Calculate source coordinates (what part of the original image to use)
-    const sourceX = (-position.x / scale);
-    const sourceY = (-position.y / scale);
-    const sourceWidth = containerSize / scale;
-    const sourceHeight = containerSize / scale;
+    // Beyaz arka plan
+    ctx.fillStyle = '#FFFFFF';
+    ctx.fillRect(0, 0, FINAL_SIZE, FINAL_SIZE);
 
-    // Draw the cropped image
+    // Ortada 1:1 kare kısmı çiz
     ctx.drawImage(
       img,
       sourceX,
       sourceY,
-      sourceWidth,
-      sourceHeight,
+      minDimension,
+      minDimension,
       0,
       0,
-      256,
-      256
+      FINAL_SIZE,
+      FINAL_SIZE
     );
 
     // Convert to blob and return
@@ -100,7 +54,7 @@ export default function ImageCropModal({ image, onCrop, onClose }) {
       if (blob) {
         onCrop(blob);
       }
-    }, 'image/jpeg', 0.9);
+    }, 'image/jpeg', 0.95);
   };
 
   return (
@@ -112,27 +66,13 @@ export default function ImageCropModal({ image, onCrop, onClose }) {
         </div>
 
         <div className={styles.cropArea}>
-          <div
-            className={styles.imageContainer}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseUp}
-            onTouchStart={handleTouchStart}
-            onTouchMove={handleTouchMove}
-            onTouchEnd={handleTouchEnd}
-          >
+          <div className={styles.imageContainer}>
             <img
               ref={imageRef}
               src={image}
               alt="Crop preview"
               className={styles.image}
               onLoad={handleImageLoad}
-              style={{
-                transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-                transformOrigin: 'top left'
-              }}
-              draggable={false}
             />
             <div className={styles.cropOverlay}>
               <div className={styles.cropCircle}></div>
@@ -140,29 +80,14 @@ export default function ImageCropModal({ image, onCrop, onClose }) {
           </div>
         </div>
 
-        <div className={styles.controls}>
-          <label className={styles.zoomLabel}>Yakınlaştır</label>
-          <input
-            type="range"
-            min="0.5"
-            max="3"
-            step="0.1"
-            value={scale}
-            onChange={(e) => setScale(parseFloat(e.target.value))}
-            className={styles.slider}
-          />
-        </div>
 
-        <p className={styles.hint}>
-          Resmi sürükleyerek konumlandırın
-        </p>
 
         <div className={styles.actions}>
           <button className={styles.cancelBtn} onClick={onClose}>
             İptal
           </button>
           <button className={styles.cropBtn} onClick={handleCrop}>
-            Kırp ve Kaydet
+            Kaydet
           </button>
         </div>
 

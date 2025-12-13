@@ -7,16 +7,31 @@
   overflow: hidden;
 }
 
+:global(.dark-mode) .eventsPanel {
+  background: #1b1f3b;
+  border-right-color: #4a5568;
+  color: #ffffff;
+}
+
 .header {
   padding: var(--spacing-md);
   border-bottom: 1px solid var(--color-border);
-  background: #f0f5f9;
+  background: #d9ebff;
+}
+
+:global(.dark-mode) .header {
+  background: #2d3748;
+  border-bottom-color: #4a5568;
 }
 
 .header h2 {
   margin: 0;
   font-size: var(--font-size-lg);
   color: var(--color-primary);
+}
+
+:global(.dark-mode) .header h2 {
+  color: #c3dcf7;
 }
 
 .eventsList {
@@ -28,12 +43,22 @@
   gap: var(--spacing-md);
 }
 
+:global(.dark-mode) .eventsList {
+  background: #1b1f3b;
+}
+
 .eventCard {
   background: white;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   padding: var(--spacing-md);
   transition: all var(--transition-fast);
+}
+
+:global(.dark-mode) .eventCard {
+  background: #2d3748;
+  border-color: #4a5568;
+  color: #ffffff;
 }
 
 .eventCard:hover {
@@ -56,11 +81,19 @@
   flex: 1;
 }
 
+:global(.dark-mode) .eventHeader h3 {
+  color: #ffffff;
+}
+
 .attendees {
   font-size: var(--font-size-xs);
   color: var(--color-primary);
   white-space: nowrap;
   font-weight: 600;
+}
+
+:global(.dark-mode) .attendees {
+  color: #c3dcf7;
 }
 
 .description {
@@ -104,7 +137,7 @@
 }
 
 .joinBtn:hover {
-  background: #a8c8dd;
+  background: #d9ebff;
   transform: translateY(-1px);
 }
 

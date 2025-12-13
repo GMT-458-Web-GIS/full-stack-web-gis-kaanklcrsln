@@ -15,11 +15,16 @@
   background: white;
   border-radius: 16px;
   padding: 24px;
-  max-width: 500px;
+  max-width: 600px;
   width: 90%;
   max-height: 85vh;
   overflow-y: auto;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark-mode) .modalContent {
+  background: #1b1f3b;
+  color: #ffffff;
 }
 
 .header {
@@ -35,18 +40,30 @@
   font-size: 1.25rem;
 }
 
+:global(.dark-mode) .header h3 {
+  color: #ffffff;
+}
+
 .closeBtn {
   background: none;
   border: none;
   font-size: 28px;
   cursor: pointer;
-  color: #718096;
+  color: #2d3748;
   padding: 0;
   line-height: 1;
 }
 
+:global(.dark-mode) .closeBtn {
+  color: #ffffff;
+}
+
 .closeBtn:hover {
   color: #2d3748;
+}
+
+:global(.dark-mode) .closeBtn:hover {
+  color: #c3dcf7;
 }
 
 .message {
@@ -73,11 +90,24 @@
   gap: 16px;
 }
 
+.topSection {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
 .avatarSection {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.rightSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .avatarWrapper {
@@ -91,19 +121,19 @@
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #667eea;
+  border: 3px solid #c3dcf7;
 }
 
 .avatarPlaceholder {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  background: #e2e8f0;
+  background: #c3dcf7;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 48px;
-  border: 3px solid #667eea;
+  border: 3px solid #c3dcf7;
 }
 
 .avatarEditBtn {
@@ -113,17 +143,26 @@
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #667eea;
+  background: #c3dcf7;
   border: 2px solid white;
   cursor: pointer;
   font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 0;
+  transition: background 0.2s;
+}
+
+.avatarEditBtn svg {
+  width: 18px;
+  height: 18px;
+  color: white;
+  stroke-width: 2;
 }
 
 .avatarEditBtn:hover {
-  background: #5a67d8;
+  background: #c3dcf7;
 }
 
 .avatarEditBtn:disabled {
@@ -134,7 +173,7 @@
 .avatarHint {
   margin: 8px 0 0;
   font-size: 0.8rem;
-  color: #a0aec0;
+  color: #2d3748;
 }
 
 .field {
@@ -153,23 +192,36 @@
 .field select,
 .field textarea {
   padding: 12px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #d9ebff;
   border-radius: 10px;
   font-size: 1rem;
   transition: border-color 0.2s;
+}
+
+:global(.dark-mode) .field input,
+:global(.dark-mode) .field select,
+:global(.dark-mode) .field textarea {
+  background: #2d3748;
+  color: #ffffff;
+  border-color: #4a5568;
 }
 
 .field input:focus,
 .field select:focus,
 .field textarea:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #c3dcf7;
 }
 
 .field input.disabled {
-  background: #f7fafc;
-  color: #718096;
+  background: #d9ebff;
+  color: #2d3748;
   cursor: not-allowed;
+}
+
+:global(.dark-mode) .field input.disabled {
+  background: #4a5568;
+  color: #c3dcf7;
 }
 
 .field textarea {
@@ -179,23 +231,44 @@
 
 .charCount {
   font-size: 0.8rem;
-  color: #a0aec0;
+  color: #2d3748;
   text-align: right;
 }
 
-.socialInput {
-  margin-bottom: 8px;
+.socialLinksContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-.socialInput:last-child {
-  margin-bottom: 0;
+.socialInput {
+  margin-bottom: 0 !important;
+}
+
+.addLinkBtn {
+  margin-top: 8px;
+  padding: 10px 16px;
+  background: #e6f2ff;
+  border: 2px dashed #c3dcf7;
+  border-radius: 8px;
+  color: #c3dcf7;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.addLinkBtn:hover {
+  background: #d9ebff;
+  border-color: #c3dcf7;
+  color: #c3dcf7;
 }
 
 .saveBtn {
   margin-top: 8px;
   padding: 14px;
-  background: #667eea;
-  color: white;
+  background: #d9ebff;
+  color: #2d3748;
   border: none;
   border-radius: 10px;
   font-size: 1rem;
@@ -205,11 +278,11 @@
 }
 
 .saveBtn:hover {
-  background: #5a67d8;
+  background: #c3dcf7;
 }
 
 .saveBtn:disabled {
-  background: #a0aec0;
+  background: #2d3748;
   cursor: not-allowed;
 }
 

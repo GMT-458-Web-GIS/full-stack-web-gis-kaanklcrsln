@@ -38,7 +38,7 @@
   border: none;
   font-size: 28px;
   cursor: pointer;
-  color: #718096;
+  color: #2d3748;
   padding: 0;
   line-height: 1;
 }
@@ -60,7 +60,7 @@
   overflow: hidden;
   border-radius: 8px;
   cursor: grab;
-  background: #f0f0f0;
+  background: #d9ebff;
 }
 
 .imageContainer:active {
@@ -115,7 +115,7 @@
   appearance: none;
   height: 6px;
   border-radius: 3px;
-  background: #e2e8f0;
+  background: #d9ebff;
   outline: none;
 }
 
@@ -141,7 +141,7 @@
 .hint {
   text-align: center;
   font-size: 0.85rem;
-  color: #718096;
+  color: #2d3748;
   margin-bottom: 16px;
 }
 
@@ -161,13 +161,13 @@
 }
 
 .cancelBtn {
-  background: #f7fafc;
-  border: 2px solid #e2e8f0;
+  background: #d9ebff;
+  border: 2px solid #d9ebff;
   color: #4a5568;
 }
 
 .cancelBtn:hover {
-  background: #edf2f7;
+  background: #d9ebff;
 }
 
 .cropBtn {

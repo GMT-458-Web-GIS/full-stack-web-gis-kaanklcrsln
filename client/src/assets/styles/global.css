@@ -247,3 +247,36 @@ input:focus, textarea:focus, select:focus {
 .shadow-md {
   box-shadow: var(--shadow-md);
 }
+
+/* Dark Mode Styles */
+:root.dark-mode {
+  color-scheme: dark;
+}
+
+:root.dark-mode body {
+  background: #1b1f3b;
+  color: #ffffff;
+}
+
+:root.dark-mode input,
+:root.dark-mode textarea,
+:root.dark-mode select {
+  background: #2d3748;
+  color: #ffffff;
+  border-color: #4a5568;
+}
+
+:root.dark-mode input:focus,
+:root.dark-mode textarea:focus,
+:root.dark-mode select:focus {
+  border-color: #c3dcf7;
+  background: #2d3748;
+}
+
+:root.dark-mode a {
+  color: #c3dcf7;
+}
+
+:root.dark-mode a:hover {
+  color: #d9ebff;
+}

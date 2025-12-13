@@ -1,0 +1,216 @@
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 450px;
+  width: 90%;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+:global(.dark-mode) .modalContent {
+  background: #1b1f3b;
+  color: #ffffff;
+}
+
+.closeBtn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: none;
+  border: none;
+  font-size: 28px;
+  cursor: pointer;
+  color: #2d3748;
+  padding: 0;
+  line-height: 1;
+}
+
+:global(.dark-mode) .closeBtn {
+  color: #ffffff;
+}
+
+.closeBtn:hover {
+  color: #2d3748;
+}
+
+:global(.dark-mode) .closeBtn:hover {
+  color: #c3dcf7;
+}
+
+.loading {
+  text-align: center;
+  color: #2d3748;
+  padding: 40px 20px;
+}
+
+:global(.dark-mode) .loading {
+  color: #c3dcf7;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profileHeader {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+.avatarSection {
+  flex-shrink: 0;
+}
+
+.avatar {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #4a7ab5;
+}
+
+:global(.dark-mode) .avatar {
+  border-color: #c3dcf7;
+}
+
+.avatarPlaceholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  background: #d9ebff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  border: 3px solid #4a7ab5;
+}
+
+:global(.dark-mode) .avatarPlaceholder {
+  background: #4a5568;
+  border-color: #c3dcf7;
+  color: #ffffff;
+}
+
+.statsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.userName {
+  margin: 0;
+  color: #2d3748;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+:global(.dark-mode) .userName {
+  color: #ffffff;
+}
+
+.university {
+  margin: 0;
+  color: #4a7ab5;
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+:global(.dark-mode) .university {
+  color: #c3dcf7;
+}
+
+.stats {
+  display: flex;
+  gap: 24px;
+  margin-top: 12px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.statLabel {
+  font-size: 0.85rem;
+  color: #2d3748;
+  font-weight: 600;
+}
+
+:global(.dark-mode) .statLabel {
+  color: #c3dcf7;
+}
+
+.statValue {
+  font-size: 1.4rem;
+  color: #4a7ab5;
+  font-weight: 700;
+}
+
+:global(.dark-mode) .statValue {
+  color: #c3dcf7;
+}
+
+.bioSection {
+  padding: 16px;
+  background: #d9ebff;
+  border-radius: 12px;
+  border-left: 4px solid #4a7ab5;
+}
+
+:global(.dark-mode) .bioSection {
+  background: #2d3748;
+  border-left-color: #c3dcf7;
+}
+
+.bio {
+  margin: 0;
+  color: #4a5568;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+:global(.dark-mode) .bio {
+  color: #c3dcf7;
+}
+
+@media (max-width: 480px) {
+  .modalContent {
+    padding: 16px;
+  }
+
+  .profileHeader {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .avatarSection {
+    width: 100%;
+  }
+
+  .statsSection {
+    width: 100%;
+  }
+
+  .stats {
+    justify-content: center;
+  }
+}

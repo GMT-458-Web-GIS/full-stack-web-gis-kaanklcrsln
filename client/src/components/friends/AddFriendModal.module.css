@@ -22,6 +22,11 @@
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
+:global(.dark-mode) .modalContent {
+  background: #1b1f3b;
+  color: #ffffff;
+}
+
 .header {
   display: flex;
   justify-content: space-between;
@@ -35,18 +40,30 @@
   font-size: 1.25rem;
 }
 
+:global(.dark-mode) .header h3 {
+  color: #ffffff;
+}
+
 .closeBtn {
   background: none;
   border: none;
   font-size: 28px;
   cursor: pointer;
-  color: #718096;
+  color: #2d3748;
   padding: 0;
   line-height: 1;
 }
 
+:global(.dark-mode) .closeBtn {
+  color: #ffffff;
+}
+
 .closeBtn:hover {
   color: #2d3748;
+}
+
+:global(.dark-mode) .closeBtn:hover {
+  color: #c3dcf7;
 }
 
 .searchContainer {
@@ -56,15 +73,25 @@
 .searchInput {
   width: 100%;
   padding: 12px 16px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #d9ebff;
   border-radius: 10px;
   font-size: 1rem;
   box-sizing: border-box;
 }
 
+:global(.dark-mode) .searchInput {
+  background: #2d3748;
+  color: #ffffff;
+  border-color: #4a5568;
+}
+
 .searchInput:focus {
   outline: none;
-  border-color: #667eea;
+  border-color: #4a7ab5;
+}
+
+:global(.dark-mode) .searchInput:focus {
+  border-color: #c3dcf7;
 }
 
 .message {
@@ -92,8 +119,13 @@
 
 .loading, .noResults {
   text-align: center;
-  color: #718096;
+  color: #2d3748;
   padding: 20px;
+}
+
+:global(.dark-mode) .loading,
+:global(.dark-mode) .noResults {
+  color: #c3dcf7;
 }
 
 .userItem {
@@ -101,21 +133,32 @@
   justify-content: space-between;
   align-items: center;
   padding: 12px;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #d9ebff;
   border-radius: 10px;
   margin-bottom: 8px;
   cursor: pointer;
   transition: all 0.2s;
 }
 
+:global(.dark-mode) .userItem {
+  border-color: #4a5568;
+  background: transparent;
+  color: #ffffff;
+}
+
 .userItem:hover {
-  border-color: #667eea;
-  background: #f7fafc;
+  border-color: #4a7ab5;
+  background: #d9ebff;
+}
+
+:global(.dark-mode) .userItem:hover {
+  border-color: #c3dcf7;
+  background: #2d3748;
 }
 
 .userItem.selected {
-  border-color: #667eea;
-  background: #ebf4ff;
+  border-color: #4a7ab5;
+  background: #d9ebff;
 }
 
 .userInfo {
@@ -128,12 +171,16 @@
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: #e2e8f0;
+  background: #d9ebff;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 24px;
   overflow: hidden;
+}
+
+:global(.dark-mode) .avatar {
+  background: #4a5568;
 }
 
 .avatar img {
@@ -152,20 +199,24 @@
   color: #2d3748;
 }
 
+:global(.dark-mode) .userName {
+  color: #ffffff;
+}
+
 .userEmail {
   margin: 2px 0 0;
   font-size: 0.85rem;
-  color: #718096;
+  color: #2d3748;
 }
 
 .userUniversity {
   margin: 2px 0 0;
   font-size: 0.8rem;
-  color: #667eea;
+  color: #4a7ab5;
 }
 
 .addBtn {
-  background: #667eea;
+  background: #4a7ab5;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -176,7 +227,7 @@
 }
 
 .addBtn:hover {
-  background: #5a67d8;
+  background: #c3dcf7;
 }
 
 .sentBadge {
@@ -187,7 +238,7 @@
 .profilePreview {
   margin-top: 20px;
   padding: 20px;
-  background: #f7fafc;
+  background: #d9ebff;
   border-radius: 12px;
   border: 2px solid #667eea;
 }
@@ -209,7 +260,7 @@
   border: none;
   font-size: 20px;
   cursor: pointer;
-  color: #718096;
+  color: #2d3748;
 }
 
 .previewContent {
@@ -220,7 +271,7 @@
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  background: #e2e8f0;
+  background: #d9ebff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -242,7 +293,7 @@
 
 .previewContent p {
   margin: 4px 0;
-  color: #718096;
+  color: #2d3748;
 }
 
 .bio {

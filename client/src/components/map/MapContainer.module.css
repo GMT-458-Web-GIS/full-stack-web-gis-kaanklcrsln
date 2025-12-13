@@ -6,7 +6,11 @@
 }
 
 .mapContainer :global(.ol-viewport) {
-  background: linear-gradient(135deg, var(--color-faded-copper-100), var(--color-slate-grey-100));
+  background: #d9ebff;
+}
+
+:global(.dark-mode) .mapContainer :global(.ol-viewport) {
+  background: #2d3748;
 }
 
 .mapContainer :global(.ol-attribution) {

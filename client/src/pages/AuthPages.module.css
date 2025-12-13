@@ -3,7 +3,7 @@
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: linear-gradient(135deg, rgba(42, 167, 213, 0.7), rgba(89, 166, 101, 0.7)), url('/assets/login-background.png');
+  background: #d9ebff;
   background-size: cover;
   background-position: center;
   background-attachment: fixed;

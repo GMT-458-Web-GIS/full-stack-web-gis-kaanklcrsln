@@ -103,26 +103,6 @@ export default function ChatPanel() {
 
   return (
     <div className={styles.chatPanel}>
-      {/* Kullanıcı Profil Bilgisi Paneli */}
-      <div className={styles.profilePanel}>
-        <div className={styles.profileContent}>
-          {userProfile.profilePicture ? (
-            <img src={userProfile.profilePicture} alt="Profil" className={styles.profileAvatar} />
-          ) : (
-            <div className={styles.profileAvatarPlaceholder}>👤</div>
-          )}
-          <div className={styles.profileInfo}>
-            <h4 className={styles.profileName}>{userProfile.displayName}</h4>
-            <p className={styles.profileUniversity}>{userProfile.university || 'Üniversite belirtilmemiş'}</p>
-            <div className={styles.profileStats}>
-              <span className={styles.statText}>{statistics.events} Etkinlik</span>
-              <span className={styles.statDivider}>|</span>
-              <span className={styles.statText}>{statistics.friends} Arkadaş</span>
-            </div>
-          </div>
-        </div>
-      </div>
-
       <div className={styles.tabs}>
         <button
           className={`${styles.tab} ${activeTab === 'general' ? styles.active : ''}`}
@@ -186,7 +166,7 @@ export default function ChatPanel() {
                   <strong
                     style={{ cursor: 'pointer', color: '#4a7ab5' }}
                     onClick={() => handleUserNameClick(selectedPerson.name)}
-                    onMouseEnter={(e) => e.target.style.color = '#c3dcf7'}
+                    onMouseEnter={(e) => e.target.style.color = '#3d5f8d'}
                     onMouseLeave={(e) => e.target.style.color = '#4a7ab5'}
                   >
                     {selectedPerson.name}
@@ -209,7 +189,7 @@ export default function ChatPanel() {
                 <strong
                   style={{ cursor: 'pointer', color: '#4a7ab5' }}
                   onClick={() => handleUserNameClick(msg.user)}
-                  onMouseEnter={(e) => e.target.style.color = '#c3dcf7'}
+                  onMouseEnter={(e) => e.target.style.color = '#3d5f8d'}
                   onMouseLeave={(e) => e.target.style.color = '#4a7ab5'}
                 >
                   {msg.user}

@@ -3,6 +3,7 @@ import { useAuth } from '../../hooks/useAuth.jsx';
 import AddFriendModal from '../friends/AddFriendModal';
 import NotificationPanel from '../notifications/NotificationPanel';
 import ProfileModal from '../profile/ProfileModal';
+import SettingsModal from '../settings/SettingsModal';
 import styles from './Navbar.module.css';
 
 export default function Navbar() {
@@ -11,6 +12,7 @@ export default function Navbar() {
   const [showAddFriend, setShowAddFriend] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfile, setShowProfile] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
   const menuRef = useRef(null);
 
   const handleLogout = async () => {
@@ -40,7 +42,7 @@ export default function Navbar() {
       <nav className={styles.navbar}>
         <div className={styles.container}>
           <div className={styles.logo}>
-            <img src="/assets/friendly-logo_trans.png" alt="Friendly Logo" />
+            <img src="/Friendly/assets/friendly-logo_trans.png" alt="Friendly Logo" />
           </div>
 
           <div className={styles.actions}>
@@ -101,7 +103,13 @@ export default function Navbar() {
                   >
                     ✏️ Profili Düzenle
                   </button>
-                  <button className={styles.menuItem} onClick={() => setIsOpen(false)}>
+                  <button 
+                    className={styles.menuItem} 
+                    onClick={() => {
+                      setIsOpen(false);
+                      setShowSettings(true);
+                    }}
+                  >
                     ⚙️ Ayarlar
                   </button>
                   <hr className={styles.divider} />
@@ -129,6 +137,11 @@ export default function Navbar() {
       <ProfileModal 
         isOpen={showProfile} 
         onClose={() => setShowProfile(false)} 
+      />
+
+      <SettingsModal
+        isOpen={showSettings}
+        onClose={() => setShowSettings(false)}
       />
     </>
   );

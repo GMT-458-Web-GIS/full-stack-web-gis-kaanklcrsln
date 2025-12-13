@@ -5,6 +5,10 @@
   background-color: var(--color-bg);
 }
 
+:global(.dark-mode) .layout {
+  background-color: #1b1f3b;
+}
+
 .main {
   flex: 0 1 auto;
   display: flex;
