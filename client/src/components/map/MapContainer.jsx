@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ref, onValue, update } from 'firebase/database';
 import { rtdb } from '../../api/firebase';
 import { useAuth } from '../../hooks/useAuth';
+import { isAdmin } from '../../utils/adminConfig';
 import styles from './MapContainer.module.css';
 
 export default function MapContainer() {
@@ -139,9 +140,13 @@ export default function MapContainer() {
         });
 
         // InfoWindow ekle
+        const adminBadge = isAdmin(event.createdByEmail) ? '<span style="display: inline-block; background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%); color: #78350f; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-left: 8px; box-shadow: 0 2px 6px rgba(245, 158, 11, 0.3);">👨‍💼 Admin</span>' : '';
         const infoWindowContent = `
           <div style="padding: 12px; min-width: 250px; font-family: Arial, sans-serif;">
-            <h3 style="margin: 0 0 8px 0; color: #2d3748; font-size: 14px;">${event.title}</h3>
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <h3 style="margin: 0; color: #2d3748; font-size: 14px;">${event.title}</h3>
+              ${adminBadge}
+            </div>
             <p style="margin: 4px 0; color: #4a5568; font-size: 12px;">${event.description}</p>
             <p style="margin: 4px 0; font-weight: bold; color: #4a7ab5; font-size: 12px;">📍 ${event.location}</p>
             <p style="margin: 4px 0; color: #4a5568; font-size: 12px;">📅 ${event.date} | ⏰ ${event.time}</p>

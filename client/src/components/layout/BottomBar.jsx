@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { ref, push } from 'firebase/database';
 import { rtdb } from '../../api/firebase';
 import { useAuth } from '../../hooks/useAuth';
+import { isAdmin } from '../../utils/adminConfig';
 import AddressSelectionModal from '../modals/AddressSelectionModal';
 import styles from './BottomBar.module.css';
 
@@ -40,6 +41,7 @@ export default function BottomBar() {
       const eventData = {
         ...formData,
         createdBy: user.uid,
+        createdByEmail: user.email,
         createdAt: new Date().toISOString(),
         participation: { [user.uid]: 'approved' },
         participantCount: 1
@@ -63,6 +65,14 @@ export default function BottomBar() {
     }
   };
 
+  // Sadece admin etkinlik oluşturabilir
+  const userEmail = user?.email;
+  const adminUser = isAdmin(userEmail);
+
+  if (!adminUser) {
+    return null; // Admin değilse hiçbir şey gösterme
+  }
+
   return (
     <>
       <div className={styles.bottomBar}></div>
@@ -70,7 +80,7 @@ export default function BottomBar() {
       <button
         className={styles.floatingBtn}
         onClick={() => setShowModal(true)}
-        title="Etkinlik Oluştur"
+        title="Etkinlik Oluştur (Admin)"
       >
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className={styles.floatingBtnIcon}>
           <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
@@ -80,7 +90,10 @@ export default function BottomBar() {
       {showModal && (
         <div className={styles.modal} onClick={() => setShowModal(false)}>
           <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-            <h2>Etkinlik Oluştur</h2>
+            <div className={styles.modalHeader}>
+              <h2>Etkinlik Oluştur</h2>
+              <span className={styles.adminBadge}>👨‍💼 Admin</span>
+            </div>
             <form onSubmit={handleSubmit}>
               <div className={styles.formGroup}>
                 <label>Başlık</label>

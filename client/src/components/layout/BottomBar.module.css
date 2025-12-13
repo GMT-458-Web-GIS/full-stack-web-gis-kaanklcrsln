@@ -112,6 +112,35 @@
   color: #c3dcf7;
 }
 
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+.modalHeader h2 {
+  margin: 0;
+  flex: 1;
+}
+
+.adminBadge {
+  display: inline-block;
+  background: linear-gradient(135deg, #4a7ab5 0%, #2c5aa0 100%);
+  color: white;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 2px 8px rgba(74, 122, 181, 0.3);
+}
+
+:global(.dark-mode) .adminBadge {
+  background: linear-gradient(135deg, #5b8cc4 0%, #3d6eb3 100%);
+}
+
 .formGroup {
   display: flex;
   flex-direction: column;

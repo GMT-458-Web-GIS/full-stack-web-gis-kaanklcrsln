@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { ref, onValue, update } from 'firebase/database';
 import { rtdb } from '../../api/firebase';
 import { useAuth } from '../../hooks/useAuth';
+import { isAdmin } from '../../utils/adminConfig';
 import styles from './EventsPanel.module.css';
 
 const CATEGORIES = ['Sosyal', 'Spor', 'Sanat', 'Eğitim', 'Diğer'];
@@ -82,6 +83,9 @@ export default function EventsPanel() {
             <div key={event.id} className={styles.eventCard}>
               <div className={styles.eventHeader}>
                 <h3>{event.title}</h3>
+                {isAdmin(event.createdByEmail) && (
+                  <span className={styles.adminBadge} title="Admin tarafından oluşturuldu">👨‍💼</span>
+                )}
               </div>
 
               <div className={styles.eventDetails}>
