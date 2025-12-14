@@ -20,7 +20,7 @@ const router = createBrowserRouter(
     { path: '/giris', element: <LoginPage /> },
     { path: '/kayit', element: <RegisterPage /> },
 
-    // Protected routes
+    // Main route (protected)
     {
       path: '/main',
       element: (
@@ -28,6 +28,12 @@ const router = createBrowserRouter(
           <HomePage />
         </PrivateRoute>
       ),
+    },
+
+    // Root route - redirect to main
+    {
+      path: '/',
+      element: <Navigate to="/main" replace />,
     },
   {
     path: '/events',
@@ -70,13 +76,8 @@ const router = createBrowserRouter(
     ),
   },
 
-    // Root route - redirect to login if not authenticated, else to main
-    {
-      path: '/',
-      element: <Navigate to="/giris" replace />,
-    },
-
-    // Wildcard route - redirect to main
+    // Root and wildcard routes - redirect to main
+    { path: '/', element: <Navigate to="/main" replace /> },
     { path: '*', element: <Navigate to="/main" replace /> },
   ],
   { basename: '/Friendly' }
