@@ -69,54 +69,92 @@ export default function ProfileModal({ isOpen, onClose }) {
 
   const handleImageSelect = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      if (file.size > 5 * 1024 * 1024) {
-        setMessage({ type: 'error', text: 'Dosya boyutu 5MB\'dan küçük olmalıdır' });
-        return;
-      }
-      
+    if (!file) return;
+    
+    // Dosya boyutu kontrolü (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      setMessage({ type: 'error', text: 'Dosya boyutu 2MB\'dan küçük olmalıdır' });
+      return;
+    }
+    
+    // Sadece resim dosyalarını kabul et
+    if (!file.type.startsWith('image/')) {
+      setMessage({ type: 'error', text: 'Sadece resim dosyaları yüklenebilir' });
+      return;
+    }
+    
+    setLoading(true);
+    
+    try {
       const reader = new FileReader();
-      reader.onload = async () => {
+      reader.onload = async (event) => {
         const img = new Image();
         img.onload = async () => {
-          // Otomatik 1:1 kırpıp kaydet
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          
-          const imgWidth = img.naturalWidth;
-          const imgHeight = img.naturalHeight;
-          const minDimension = Math.min(imgWidth, imgHeight);
-          
-          const sourceX = (imgWidth - minDimension) / 2;
-          const sourceY = (imgHeight - minDimension) / 2;
-          
-          canvas.width = 128;
-          canvas.height = 128;
-          
-          ctx.fillStyle = '#FFFFFF';
-          ctx.fillRect(0, 0, 128, 128);
-          
-          ctx.drawImage(
-            img,
-            sourceX,
-            sourceY,
-            minDimension,
-            minDimension,
-            0,
-            0,
-            128,
-            128
-          );
-          
-          canvas.toBlob(async (blob) => {
-            if (blob) {
-              await uploadProfilePicture(blob);
-            }
-          }, 'image/jpeg', 0.95);
+          try {
+            // Canvas boyutunu küçült (max 200x200)
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            const maxSize = 200;
+            const imgWidth = img.naturalWidth;
+            const imgHeight = img.naturalHeight;
+            const minDimension = Math.min(imgWidth, imgHeight);
+            
+            const sourceX = (imgWidth - minDimension) / 2;
+            const sourceY = (imgHeight - minDimension) / 2;
+            
+            canvas.width = maxSize;
+            canvas.height = maxSize;
+            
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillRect(0, 0, maxSize, maxSize);
+            
+            ctx.drawImage(
+              img,
+              sourceX,
+              sourceY,
+              minDimension,
+              minDimension,
+              0,
+              0,
+              maxSize,
+              maxSize
+            );
+            
+            // Blob oluştur (kalite düşür)
+            canvas.toBlob(async (blob) => {
+              if (blob) {
+                await uploadProfilePicture(blob);
+              } else {
+                setMessage({ type: 'error', text: 'Resim işlenirken hata oluştu' });
+                setLoading(false);
+              }
+            }, 'image/jpeg', 0.7); // Kaliteyi düşür
+          } catch (error) {
+            console.error('Canvas hatası:', error);
+            setMessage({ type: 'error', text: 'Resim işlenirken hata oluştu' });
+            setLoading(false);
+          }
         };
-        img.src = reader.result;
+        
+        img.onerror = () => {
+          setMessage({ type: 'error', text: 'Resim yüklenemedi' });
+          setLoading(false);
+        };
+        
+        img.src = event.target.result;
       };
+      
+      reader.onerror = () => {
+        setMessage({ type: 'error', text: 'Dosya okunamadı' });
+        setLoading(false);
+      };
+      
       reader.readAsDataURL(file);
+    } catch (error) {
+      console.error('Resim seçme hatası:', error);
+      setMessage({ type: 'error', text: 'Resim seçilirken hata oluştu' });
+      setLoading(false);
     }
   };
 
