@@ -20,6 +20,7 @@ const UNIVERSITIES = [
   'Ufuk Üniversitesi',
   'Ankara Sosyal Bilimler Üniversitesi',
   'TED Üniversitesi',
+  'Medipol Üniversitesi',
   'Ankara Müzik ve Güzel Sanatlar Üniversitesi',
   'Türk Hava Kurumu Üniversitesi',
   'Sağlık Bilimleri Üniversitesi (Gülhane Kampüsü)',
