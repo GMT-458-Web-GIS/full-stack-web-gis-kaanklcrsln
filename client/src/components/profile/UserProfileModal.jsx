@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { ref, onValue } from 'firebase/database';
 import { rtdb } from '../../api/firebase';
 import styles from './UserProfileModal.module.css';
+import UserEventsModal from '../modals/UserEventsModal';
+import UserFriendsModal from '../modals/UserFriendsModal';
 
 export default function UserProfileModal({ userId, isOpen, onClose }) {
   const [userProfile, setUserProfile] = useState({
@@ -15,6 +17,8 @@ export default function UserProfileModal({ userId, isOpen, onClose }) {
     friends: 0
   });
   const [loading, setLoading] = useState(true);
+  const [showEventsModal, setShowEventsModal] = useState(false);
+  const [showFriendsModal, setShowFriendsModal] = useState(false);
 
   useEffect(() => {
     if (!isOpen || !userId) return;
@@ -51,7 +55,7 @@ export default function UserProfileModal({ userId, isOpen, onClose }) {
     });
 
     // Arkadaş sayısını yükle
-    const friendsRef = ref(rtdb, `friends/${userId}`);
+    const friendsRef = ref(rtdb, `users/${userId}/friends`);
     const unsubscribeFriends = onValue(friendsRef, (snapshot) => {
       let friendCount = 0;
       if (snapshot.exists()) {
@@ -103,11 +107,11 @@ export default function UserProfileModal({ userId, isOpen, onClose }) {
                 )}
 
                 <div className={styles.stats}>
-                  <div className={styles.statItem}>
+                  <div className={styles.statItem} onClick={() => setShowEventsModal(true)} style={{ cursor: 'pointer' }}>
                     <span className={styles.statLabel}>Etkinlik</span>
                     <span className={styles.statValue}>{statistics.events}</span>
                   </div>
-                  <div className={styles.statItem}>
+                  <div className={styles.statItem} onClick={() => setShowFriendsModal(true)} style={{ cursor: 'pointer' }}>
                     <span className={styles.statLabel}>Arkadaş</span>
                     <span className={styles.statValue}>{statistics.friends}</span>
                   </div>
@@ -123,6 +127,18 @@ export default function UserProfileModal({ userId, isOpen, onClose }) {
             )}
           </div>
         )}
+
+        <UserEventsModal
+          userId={userId}
+          isOpen={showEventsModal}
+          onClose={() => setShowEventsModal(false)}
+        />
+
+        <UserFriendsModal
+          userId={userId}
+          isOpen={showFriendsModal}
+          onClose={() => setShowFriendsModal(false)}
+        />
       </div>
     </div>
   );

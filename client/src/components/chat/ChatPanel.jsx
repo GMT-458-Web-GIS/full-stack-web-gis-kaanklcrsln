@@ -4,6 +4,8 @@ import { useAuth } from '../../hooks/useAuth.jsx';
 import { ref, onValue } from 'firebase/database';
 import { rtdb } from '../../api/firebase';
 import UserProfileModal from '../profile/UserProfileModal';
+import UserEventsModal from '../modals/UserEventsModal';
+import UserFriendsModal from '../modals/UserFriendsModal';
 
 export default function ChatPanel() {
   const { user } = useAuth();
@@ -11,6 +13,8 @@ export default function ChatPanel() {
   const [selectedPerson, setSelectedPerson] = useState(null);
   const [showUserProfile, setShowUserProfile] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
+  const [showEventsModal, setShowEventsModal] = useState(false);
+  const [showFriendsModal, setShowFriendsModal] = useState(false);
   const [userProfile, setUserProfile] = useState({
     displayName: '',
     profilePicture: null,
@@ -55,7 +59,7 @@ export default function ChatPanel() {
     });
 
     // Arkadaş sayısını yükle
-    const friendsRef = ref(rtdb, `friends/${user.uid}`);
+    const friendsRef = ref(rtdb, `users/${user.uid}/friends`);
     const unsubscribeFriends = onValue(friendsRef, (snapshot) => {
       let friendCount = 0;
       if (snapshot.exists()) {
@@ -106,9 +110,21 @@ export default function ChatPanel() {
             <h4 className={styles.profileName}>{userProfile.displayName}</h4>
             <p className={styles.profileUniversity}>{userProfile.university || 'Üniversite belirtilmemiş'}</p>
             <div className={styles.profileStats}>
-              <span className={styles.statText}>{statistics.events} Etkinlik</span>
+              <span 
+                className={styles.statText}
+                onClick={() => setShowEventsModal(true)}
+                style={{ cursor: 'pointer' }}
+              >
+                {statistics.events} Etkinlik
+              </span>
               <span className={styles.statDivider}>|</span>
-              <span className={styles.statText}>{statistics.friends} Arkadaş</span>
+              <span 
+                className={styles.statText}
+                onClick={() => setShowFriendsModal(true)}
+                style={{ cursor: 'pointer' }}
+              >
+                {statistics.friends} Arkadaş
+              </span>
             </div>
           </div>
         </div>
@@ -237,6 +253,18 @@ export default function ChatPanel() {
         userId={selectedUserId}
         isOpen={showUserProfile}
         onClose={() => setShowUserProfile(false)}
+      />
+
+      <UserEventsModal
+        userId={user?.uid}
+        isOpen={showEventsModal}
+        onClose={() => setShowEventsModal(false)}
+      />
+
+      <UserFriendsModal
+        userId={user?.uid}
+        isOpen={showFriendsModal}
+        onClose={() => setShowFriendsModal(false)}
       />
     </div>
   );
