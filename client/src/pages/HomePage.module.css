@@ -2,18 +2,17 @@
   display: grid;
   grid-template-columns: 350px 1fr 350px;
   gap: var(--spacing-lg);
-  flex: 1;
-  height: auto;
-  max-height: calc(100vh - var(--spacing-lg) * 2);
+  height: calc(100vh - 60px - 80px); /* viewport height - navbar - bottombar */
   padding: var(--spacing-lg);
-  margin: 0 auto 120px auto;
+  margin: 0 auto;
   max-width: 1400px;
   width: 100%;
+  overflow: hidden;
 }
 
 .eventsColumn {
   width: 100%;
-  height: 600px;
+  height: 100%;
   background: white;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
@@ -28,7 +27,7 @@
 
 .mapColumn {
   width: 100%;
-  height: 600px;
+  height: 100%;
   background: #d9ebff;
   position: relative;
   border-radius: var(--radius-lg);
@@ -42,7 +41,7 @@
 
 .chatColumn {
   width: 100%;
-  height: 600px;
+  height: 100%;
   background: white;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);

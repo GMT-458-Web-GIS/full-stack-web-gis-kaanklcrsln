@@ -1,7 +1,9 @@
 .layout {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
   background-color: var(--color-bg);
 }
 
@@ -10,10 +12,10 @@
 }
 
 .main {
-  flex: 0 1 auto;
+  flex: 1;
   display: flex;
   flex-direction: column;
-  overflow: visible;
+  overflow: hidden;
 }
 
 
