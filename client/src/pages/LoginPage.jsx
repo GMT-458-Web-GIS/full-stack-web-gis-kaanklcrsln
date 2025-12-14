@@ -23,7 +23,7 @@ export default function LoginPage() {
       }
 
       await signInWithEmail(email, password);
-      navigate('/');
+      navigate('/main');
     } catch (err) {
       const errorMessages = {
         'auth/user-not-found': 'E-posta veya şifre hatalı',

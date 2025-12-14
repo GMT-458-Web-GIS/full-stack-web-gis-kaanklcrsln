@@ -57,7 +57,7 @@ export default function RegisterPage() {
         location: null, // İlerde coğrafya bilgisi
       });
 
-      navigate('/');
+      navigate('/main');
     } catch (err) {
       const errorMessages = {
         'auth/email-already-in-use': 'Bu e-posta adresi zaten kullanılmakta',

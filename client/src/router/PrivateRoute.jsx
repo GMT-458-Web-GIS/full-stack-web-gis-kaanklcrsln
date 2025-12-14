@@ -1,8 +1,9 @@
-import { Navigate } from 'react-router-dom';
+import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth.jsx';
 
 export default function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
+  const location = useLocation();
 
   if (loading) {
     return (
@@ -19,5 +20,10 @@ export default function PrivateRoute({ children }) {
     );
   }
 
-  return user ? children : <Navigate to="/giris" replace />;
+  // Eğer user yoksa login sayfasına yönlendir
+  if (!user) {
+    return <Navigate to="/giris" state={{ from: location }} replace />;
+  }
+
+  return children;
 }

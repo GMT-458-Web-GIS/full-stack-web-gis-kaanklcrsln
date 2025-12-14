@@ -14,20 +14,21 @@ const AboutPage = () => (
   </div>
 );
 
-const router = createBrowserRouter([
-  // Auth routes
-  { path: '/giris', element: <LoginPage /> },
-  { path: '/kayit', element: <RegisterPage /> },
+const router = createBrowserRouter(
+  [
+    // Auth routes
+    { path: '/giris', element: <LoginPage /> },
+    { path: '/kayit', element: <RegisterPage /> },
 
-  // Protected routes
-  {
-    path: '/',
-    element: (
-      <PrivateRoute>
-        <HomePage />
-      </PrivateRoute>
-    ),
-  },
+    // Protected routes
+    {
+      path: '/main',
+      element: (
+        <PrivateRoute>
+          <HomePage />
+        </PrivateRoute>
+      ),
+    },
   {
     path: '/events',
     element: (
@@ -69,9 +70,17 @@ const router = createBrowserRouter([
     ),
   },
 
-  // Wildcard route - redirect to home
-  { path: '*', element: <Navigate to="/" replace /> },
-]);
+    // Root route - redirect to login if not authenticated, else to main
+    {
+      path: '/',
+      element: <Navigate to="/giris" replace />,
+    },
+
+    // Wildcard route - redirect to main
+    { path: '*', element: <Navigate to="/main" replace /> },
+  ],
+  { basename: '/Friendly' }
+);
 
 export default router;
 
